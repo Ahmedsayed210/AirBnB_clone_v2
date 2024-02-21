@@ -11,13 +11,13 @@ class FileStorage:
     def all(self):
         """Returns a dictionary of models currently in storage"""
         if cls is not None:
-            objects = {}
-            for key, value in FileStorage.__objects.items():
-                if isinstance(value, cls):
-                    objects[key] = value
-            return objects
-        else:
-            return FileStorage.__objects
+            cls_objects = {}
+            for key, obj in self.__objects.items():
+                cls_name = key.split('.')
+                if cls.__name__ == cls_name[0] or cls == cls_name[0]:
+                    cls_objects[key] = obj
+            return cls_objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -31,6 +31,15 @@ class FileStorage:
             for key, val in temp.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
+
+    def delete(self, obj=None):
+        """ function to delete passed obj """
+        if obj is not None:
+            for key, value in self.__objects.items():
+                if value.id == obj.id:
+                    objs = self.__objects
+                    del objs[obj.to_dict()['__class__'] + '.' + obj.id]
+                    return
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -52,14 +61,10 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
-    def delete(self, obj=None):
-        """Deletes obj from __objects if it’s inside"""
-        if obj is not None:
-            for key, value in self.__objects.items():
-                if value == obj:
-                    self.__objects.pop(key, None)
-                    break
+    def close(self):
+        """  call reload() method """
+        self.reload()
