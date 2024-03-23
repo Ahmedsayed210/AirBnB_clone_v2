@@ -48,10 +48,7 @@ def python(text="is cool"):
 
 @app.route('/number/<n>', strict_slashes=False)
 def number(n):
-    if isinstance(n, int):
         return "{n}is a number"
-    else:
-        return ""
 
 
 if __name__ == "__main__":
