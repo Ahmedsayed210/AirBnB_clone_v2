@@ -48,6 +48,7 @@ def python(text="is cool"):
 
 @app.route('/number/<n>', strict_slashes=False)
 def number(n):
+    n
     return f"{n} is a number"
 
 
