@@ -17,7 +17,8 @@ def display():
 
 @app.route('/c/<text>', strict_slashes=False)
 def C_is_fun(text):
-    return "C" + text
+    text = text.replace("_", " ")
+    return f"C {text}"
 
 
 if __name__ == "__main__":
