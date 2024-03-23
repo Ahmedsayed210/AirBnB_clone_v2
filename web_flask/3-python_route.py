@@ -17,13 +17,14 @@ def display():
 
 @app.route('/c/<text>', strict_slashes=False)
 def C_is_fun(text):
-    return "C" + text
+    text = text.replace("_", " ")
+    return f"C {text}"
 
 
 @app.route('/python/<text>', strict_slashes=False)
 def python_cool(text="is cool"):
-    text
-    return "python" + text
+    text = text.replace("_", " ")
+    return f"python {text}"
 
 
 if __name__ == "__main__":
