@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-"""Script that starts a Flask web application"""
+"""Scripts that starts a Flask web application"""
 from flask import Flask
+
 app = Flask(__name__)
 
 
@@ -12,6 +13,17 @@ def home():
 @app.route('/hbnb', strict_slashes=False)
 def display():
     return "HBNB"
+
+
+@app.route('/c/<text>', strict_slashes=False)
+def C_is_fun(text):
+    return "C" + text
+
+
+@app.route('/python/<text>', strict_slashes=False)
+def python_cool(text="is cool"):
+    text
+    return "python" + text
 
 
 if __name__ == "__main__":
